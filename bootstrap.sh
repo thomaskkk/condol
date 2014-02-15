@@ -60,9 +60,10 @@ if $FIRST_INSTALL_OR_UPDATE ; then
 	mysql -u root < /vagrant/server_config/mysql_remote_permissions/permissions.sql
 fi
 
-echo -e "${yellow}Updating library dependencies...${nocolor}"
+echo -e "${yellow}Downloading Composer and updating library dependencies...${nocolor}"
 cd /vagrant/www/
-php ../composer.phar install
+curl -sS https://getcomposer.org/installer | php
+php composer.phar install
 
 echo -e "${yellow}Creating tables...${nocolor}"
 php artisan migrate
