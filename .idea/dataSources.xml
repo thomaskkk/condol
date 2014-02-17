@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" hash="1918175087">
+    <data-source source="LOCAL" name="MySQL - vagrant" uuid="40c5124d-70bf-4b68-8fb5-e33c4c6bd38a">
+      <driver-ref>mysql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://192.168.50.4:3306/condol</jdbc-url>
+      <user-name>root</user-name>
+      <user-password>dfc8dfcbdfdedfcbdfdedfcbdfccdfd8dfc3dfdedfcb</user-password>
+      <schema-pattern>condol.*</schema-pattern>
+      <default-schemas>condol.*</default-schemas>
+      <driver-properties>
+        <property name="zeroDateTimeBehavior" value="convertToNull" />
+        <property name="tinyInt1isBit" value="false" />
+      </driver-properties>
+      <libraries />
+    </data-source>
+  </component>
+</project>
+

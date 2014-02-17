@@ -1,9 +1,11 @@
+                            </div>
+                            {{-- end widget content --}}
+                        </div>
                     </div>
-                    {{-- end widget content --}}
-                </div>
+                </article>
+                {{-- end Widget --}}
             </div>
-        </article>
-        {{-- end Widget --}}
+            {{-- end row --}}
+        </section>
     </div>
-    {{-- end row --}}
-</section>
+</div>

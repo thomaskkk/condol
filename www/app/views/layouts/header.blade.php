@@ -23,7 +23,7 @@
         </div>
 
         <div id="logout" class="btn-header transparent pull-right">
-            <span> <a href="login.html" title="Sign Out"><i class="fa fa-sign-out"></i></a> </span>
+            <span> <a href="{{ URL::to('logoff') }}" title="Sair"><i class="fa fa-sign-out"></i></a> </span>
         </div>
 
     </div>

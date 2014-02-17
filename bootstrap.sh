@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 FIRST_INSTALL_OR_UPDATE=true
-DEV_ENV=false
+DEV_ENV=true
 
 #set bash colors
 yellow='\e[1;33m'
@@ -60,10 +60,16 @@ if $FIRST_INSTALL_OR_UPDATE ; then
 	mysql -u root < /vagrant/server_config/mysql_remote_permissions/permissions.sql
 fi
 
-echo -e "${yellow}Downloading Composer and updating library dependencies...${nocolor}"
+
 cd /vagrant/www/
-curl -sS https://getcomposer.org/installer | php
-php composer.phar install
+if [ -f /vagrant/www/composer.phar ] ; then
+    echo -e "${yellow}Composer already installed${nocolor}"
+    #php composer.phar update
+else
+    echo -e "${yellow}Downloading Composer and updating library dependencies...${nocolor}"
+    curl -sS https://getcomposer.org/installer | php
+    php composer.phar install
+fi
 
 echo -e "${yellow}Creating tables...${nocolor}"
 php artisan migrate

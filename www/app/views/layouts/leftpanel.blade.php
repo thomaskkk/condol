@@ -5,7 +5,11 @@
                     <span>
                         <img src="/img/avatars/sunny.png" alt="me" class="online" />
                         <a href="javascript:void(0);" id="show-shortcut">
-                            john.doe <i class="fa fa-angle-down"></i>
+                            @if (Auth::user())
+                            {{ Auth::user()->name }}
+                            @else
+                            Convidado
+                            @endif<i class="fa fa-angle-down"></i>
                         </a>
                     </span>
     </div>
@@ -19,6 +23,9 @@
             </li>
             <li class="">
                 <a href="{{ URL::to('moradores/') }}" title="Moradores"><i class="fa fa-lg fa-fw fa-male"></i> <span class="menu-item-parent">Moradores</span></a>
+            </li>
+            <li class="">
+                <a href="{{ URL::to('users/') }}" title="Usuários"><i class="fa fa-lg fa-fw fa-male"></i> <span class="menu-item-parent">Usuários</span></a>
             </li>
         </ul>
     </nav>

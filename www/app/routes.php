@@ -13,9 +13,29 @@
 
 Route::get('/', 'HomeController@showWelcome');
 
-Route::resource('moradores', 'MoradorController');
+Route::match('GET', 'login', 'LoginController@getLogin');
+Route::match('POST', 'login', 'LoginController@postLogin');
 
-Route::resource('users', 'UserController');
+Route::match('GET', 'register', 'LoginController@getRegister');
+Route::match('POST', 'register', 'LoginController@postRegister');
+
+Route::get('logoff', 'LoginController@logoff');
+
+Route::match('GET', 'forgotpassword', 'LoginController@getRemind');
+Route::match('POST', 'forgotpassword', 'LoginController@postRemind');
+
+Route::match('GET', 'password/reset/{token}', 'LoginController@getReset');
+Route::match('POST', 'password/reset', 'LoginController@postReset');
+
+
+Route::group(array('before'=>'auth'), function() {
+
+    Route::resource('moradores', 'MoradorController');
+
+    Route::resource('users', 'UserController');
+});
+
+
 
 
 

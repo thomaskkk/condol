@@ -1,7 +1,12 @@
 @extends('layouts.base')
 
+@section('layouts')
+@include('layouts.header')
+@include('layouts.leftpanel')
+@stop
+
 @section('content')
-@include('layouts.index.top', array('controller_name' => 'Moradores'))
+@include('layouts.index.top', array('controller_name' => 'Moradores', 'single_controller_name' => 'morador', 'create_route' => 'moradores'))
 
     <table id="dt_basic" class="table table-striped table-hover">
         <thead>
@@ -34,6 +39,7 @@
         @endforeach
         </tbody>
     </table>
+
 
 @include('layouts.index.bottom')
 @stop

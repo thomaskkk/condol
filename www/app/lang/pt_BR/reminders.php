@@ -13,12 +13,12 @@ return array(
 	|
 	*/
 
-	"password" => "Passwords must be at least six characters and match the confirmation.",
+	"password" => "Senhas precisam ser de pelo menos 6 caracteres e serem iguais.",
 
-	"user" => "We can't find a user with that e-mail address.",
+	"user" => "Não existe usuário com este e-mail",
 
-	"token" => "This password reset token is invalid.",
+	"token" => "O token para recriar a senha é inválido.",
 
-	"sent" => "Password reminder sent!",
+	"sent" => "E-mail para recriar a senha eviado. Verifique sua caixa de entrada.",
 
 );

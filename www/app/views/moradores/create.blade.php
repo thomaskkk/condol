@@ -1,7 +1,14 @@
 @extends('layouts.base')
 
+@section('layouts')
+@include('layouts.header')
+@include('layouts.leftpanel')
+@stop
+
 @section('content')
 @include('layouts.create.top', array('errors' => $errors, 'controler_name' => 'Moradores', 'submit_route' => 'moradores'))
+
+{{-- Messages --}}
 
     <fieldset>
         <div class="row">
@@ -130,24 +137,6 @@
                     },
                     rg : {
                         digits : 'Por favor, somente números'
-                    }
-                },
-
-                // Do not change code below
-                errorPlacement : function(error, element) {
-                    error.insertAfter(element.parent());
-                }
-            });
-
-            var $registerForm = $("#smart-form-register").validate({
-
-                // Rules for form validation
-                rules : {
-                    username : {
-                        required : true
-                    },
-                    email : {
-                        email : true
                     }
                 },
 

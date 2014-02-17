@@ -31,23 +31,11 @@
         <link rel="icon" type="image/x-icon" href="favicon.ico" />
 
     </head>
-    <body>
+    <body @yield('body_options')>
 
-    @include('layouts.header')
+    @yield('layouts')
 
-    @include('layouts.leftpanel')
-
-    {{-- MAIN PANEL --}}
-    <div id="main" role="main">
-
-        {{-- MAIN CONTENT --}}
-        <div id="content">
-            @section('content')
-            @show
-        </div>
-
-    </div>
-    {{-- MAIN PANEL --}}
+    @yield('content')
 
     @section('javascripts')
 

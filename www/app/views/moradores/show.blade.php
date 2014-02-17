@@ -1,5 +1,10 @@
 @extends('layouts.base')
 
+@section('layouts')
+@include('layouts.header')
+@include('layouts.leftpanel')
+@stop
+
 @section('content')
 @include('layouts.show.top', array('controller_name' => 'Morador', 'model' => $morador, 'delete_route' => 'moradores'))
 

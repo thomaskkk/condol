@@ -35,7 +35,13 @@ App::after(function($request, $response)
 
 Route::filter('auth', function()
 {
-	if (Auth::guest()) return Redirect::guest('login');
+	if (Auth::guest()) {
+
+        //Save target page
+        Session::put('target_path', Request::path());
+        //go to login page
+        return Redirect::guest('login');
+    }
 });
 
 

@@ -39,7 +39,7 @@ class MoradorController extends \BaseController {
         // validate
         $rules = array(
             'nome' => 'required',
-            'email' => 'email|unique:moradores,email',
+            'email' => 'email|unique:users,email|unique:moradores,email',
             'cpf' => 'unique:moradores,cpf',
             'rg' => 'numeric|unique:moradores,rg',
             'aniversario' => 'dateformat:d/m/Y',
@@ -60,8 +60,7 @@ class MoradorController extends \BaseController {
             $morador->cpf = Input::get('cpf');
             $morador->rg = Input::get('rg');
             $morador->tel_contato = Input::get('tel_contato');
-            //Do not trust on Model Mutators
-            $morador->aniversario = preg_replace("/(\d+)\D+(\d+)\D+(\d+)/","$3-$2-$1", Input::get('aniversario'));
+            $morador->aniversario = Input::get('aniversario');
             $morador->sexo = Input::get('sexo');
             $morador->save();
 
@@ -114,7 +113,7 @@ class MoradorController extends \BaseController {
         // validate
         $rules = array(
             'nome' => 'required',
-            'email' => 'email|unique:moradores,email,'.$id,
+            'email' => 'email|unique:users,email,'.$id.'|unique:moradores,email,'.$id,
             'cpf' => 'unique:moradores,cpf,'.$id,
             'rg' => 'numeric|unique:moradores,rg,'.$id,
             'aniversario' => 'dateformat:d/m/Y',
@@ -136,9 +135,9 @@ class MoradorController extends \BaseController {
             $morador->cpf = Input::get('cpf');
             $morador->rg = Input::get('rg');
             $morador->tel_contato = Input::get('tel_contato');
-            //Do not trust on Model Mutators
-            $morador->aniversario = preg_replace("/(\d+)\D+(\d+)\D+(\d+)/","$3-$2-$1", Input::get('aniversario'));
+            $morador->aniversario =  Input::get('aniversario');
             $morador->sexo = Input::get('sexo');
+
             $morador->save();
 
             // redirect
