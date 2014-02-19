@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMoradoresTable extends Migration {
+class CreateResidentsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,18 +12,18 @@ class CreateMoradoresTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('moradores', function(Blueprint $table)
+		Schema::create('residents', function(Blueprint $table)
 		{
-            $table->increments('id');
+            $table->increments('id')->unsigned();
 
-            $table->string('nome', 255);
+            $table->string('name', 255);
             $table->string('email', 255);
             $table->string('cpf', 14);
             $table->string('rg', 11);
-            $table->string('tel_contato', 20);
-            $table->date('aniversario');
-            $table->enum('sexo', array('M', 'F'));
-            $table->string('dir_foto', 255);
+            $table->string('contact_phone', 20);
+            $table->date('birthdate');
+            $table->enum('gender', array('M', 'F'));
+            $table->string('img_path', 255);
 
             $table->timestamps();
 		});
@@ -36,6 +36,6 @@ class CreateMoradoresTable extends Migration {
 	 */
 	public function down()
 	{
-        Schema::drop('moradores');
+        Schema::drop('residents');
 	}
 }

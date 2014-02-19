@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en-US">
+<html lang="pt-BR">
 	<head>
 		<meta charset="utf-8">
 	</head>
 	<body>
-		<h2>Password Reset</h2>
+		<h2>Lembrete de senha</h2>
 
 		<div>
-			To reset your password, complete this form: {{ URL::to('password/reset', array($token)) }}.
+			Para redefinir sua senha, por favor, preencha este formulário: {{ URL::to('password/reset', array($resetCode)) }}.
 		</div>
 	</body>
 </html>

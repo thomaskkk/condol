@@ -1,5 +1,6 @@
 <?php
 
+
 class UserController extends \BaseController {
 
     /**
@@ -25,8 +26,12 @@ class UserController extends \BaseController {
      */
     public function create()
     {
+
+        //get groups
+        $groups = DB::table('groups')->lists('name', 'id');
+
         // load the create form
-        return View::make('users.create');
+        return View::make('users.create')->with('groups', $groups);
     }
 
     /**
@@ -38,7 +43,7 @@ class UserController extends \BaseController {
     {
         // validate
         $rules = array(
-            'name' => 'required',
+            'first_name' => 'required',
             'email' => 'email|unique:users,email|unique:moradores,email',
             'password' => 'required|min:6',
             'password_match' => 'required|min:6|same:password'
@@ -52,15 +57,24 @@ class UserController extends \BaseController {
                 ->withInput(Input::except('password'), Input::except('password_match'));
         } else {
             // store
-            $user = new User;
-            $user->name  = Input::get('name');
-            $user->email = Input::get('email');
-            $user->password = Hash::make(Input::get('password'));
-            
-            $user->save();
+            $user_array = array(
+                'first_name' => Input::get('first_name'),
+                'email' => Input::get('email'),
+                'password' => Input::get('password'),
+                'activated' => true,
+            );
+            if(is_array(Input::get('permissions'))) {
+                $user_array['permissions'] = json_decode(Input::get('permissions'), true);
+            }
+
+            $user = Sentry::createUser($user_array);
+            foreach ( Input::get('group') as $value) {
+                $adminGroup = Sentry::findGroupById($value);
+                $user->addGroup($adminGroup);
+            }
 
             // redirect
-            Session::flash('message', 'Usuário criado com sucesso!');
+            Session::flash('message', trans('messages.user_created'));
             return Redirect::to('users');
         }
     }
@@ -74,11 +88,14 @@ class UserController extends \BaseController {
     public function show($id)
     {
         // get
-        $user = User::find($id);
+        $user = Sentry::findUserByID($id);
+        $groups = $user->getGroups();
+
 
         // show the view and pass
         return View::make('users.show')
-            ->with('user', $user);
+            ->with('user', $user)
+            ->with('groups', $groups);
     }
 
     /**
@@ -91,10 +108,14 @@ class UserController extends \BaseController {
     {
         // get
         $user = User::find($id);
+        //get groups
+        $groups = DB::table('groups')->lists('name', 'id');
+        $user_groups = Sentry::findUserByID($id)->getGroups();
 
         // show the edit form and pass
         return View::make('users.edit')
-            ->with('user', $user);
+            ->with('user', $user)
+            ->with('groups', $groups);
     }
 
     /**
@@ -122,15 +143,15 @@ class UserController extends \BaseController {
                 ->withInput(Input::except('password'), Input::except('password_match'));
         } else {
             // store
-            $user = User::find($id);
+            $user = Sentry::findUserById($id);
             $user->name  = Input::get('name');
             $user->email = Input::get('email');
-            $user->password = Hash::make(Input::get('password'));
+            $user->password = Input::get('password');
 
             $user->save();
 
             // redirect
-            Session::flash('message', 'Usuário alterado com sucesso!');
+            Session::flash('message', trans('messages.user_updated'));
             return Redirect::to('users');
         }
     }
@@ -144,11 +165,11 @@ class UserController extends \BaseController {
     public function destroy($id)
     {
         // delete
-        $user = User::find($id);
+        $user = Sentry::findUserById($id);
         $user->delete();
 
         // redirect
-        Session::flash('message', 'Usuário apagado com sucesso!');
+        Session::flash('message', trans('messages.user_deleted'));
         return Redirect::to('users');
     }
 

@@ -27,12 +27,18 @@ Route::match('POST', 'forgotpassword', 'LoginController@postRemind');
 Route::match('GET', 'password/reset/{token}', 'LoginController@getReset');
 Route::match('POST', 'password/reset', 'LoginController@postReset');
 
+Route::get('forbidden', 'LoginController@forbidden');
 
-Route::group(array('before'=>'auth'), function() {
 
-    Route::resource('moradores', 'MoradorController');
+Route::group(array('before'=>'auth.sentry'), function() {
+
+    Route::resource('residents', 'ResidentController');
 
     Route::resource('users', 'UserController');
+
+    Route::resource('groups', 'GroupController');
+
+    Route::resource('units', 'UnitController');
 });
 
 

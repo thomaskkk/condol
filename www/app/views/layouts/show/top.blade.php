@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
                 <h1 class="page-title txt-color-blueDark">
-                    <i class="fa fa-male fa-fw "></i>
+                    <i class="fa {{ $icon }} fa-fw "></i>
                     {{ $controller_name }}
                     <span>>
                     Detalhes
@@ -11,7 +11,7 @@
                 </h1>
             </div>
             <div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
-                {{ Form::open(array('url' => $delete_route.'/' . $morador->id)) }}
+                {{ Form::open(array('url' => $delete_route.'/' . $model->id)) }}
                 {{ Form::hidden('_method', 'DELETE') }}
                 <button type="submit" href="" class="btn btn-danger pull-right"><i class="fa fa-trash-o"></i> Apagar {{ $controller_name }}</button>
                 {{ Form::close() }}
@@ -25,7 +25,7 @@
                 {{-- start Widget --}}
                 <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     {{-- Widget ID (each widget will need unique ID) --}}
-                    <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" data-widget-editbutton="false">
+                    <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0">
                         <header>
                             <span class="widget-icon"> <i class="fa fa-table"></i> </span>
                             <h2>Detalhes do {{ $controller_name }}</h2>
@@ -38,5 +38,3 @@
                             {{-- end widget edit box --}}
                             {{-- widget content --}}
                             <div class="widget-body no-padding">
-                                <div class="widget-body-toolbar">
-                                </div>

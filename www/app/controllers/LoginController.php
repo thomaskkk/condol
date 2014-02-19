@@ -12,8 +12,12 @@ class LoginController extends Controller {
     }
     public function logoff()
     {
-        Auth::logout();
+        Sentry::logout();
         return Redirect::to('/');
+    }
+    public function forbidden()
+    {
+        return View::make('login.forbidden');
     }
     /**
      * Store a newly created resource in storage.
@@ -24,7 +28,7 @@ class LoginController extends Controller {
     {
         // validate
         $rules = array(
-            'name' => 'required',
+            'first_name' => 'required',
             'email' => 'email|unique:users,email|unique:moradores,email',
             'password' => 'required|min:4',
             'password_match' => 'required|min:4|same:password'
@@ -38,15 +42,18 @@ class LoginController extends Controller {
                 ->withInput(Input::except('password'), Input::except('password_match'));
         } else {
             // store
-            $user = new User;
-            $user->name  = Input::get('name');
-            $user->email = Input::get('email');
-            $user->password = Hash::make(Input::get('password'));
+            $user = Sentry::createUser(array(
+                'first_name' => Input::get('first_name'),
+                'email'     => Input::get('email'),
+                'password'  => Input::get('password'),
+                'activated' => true
+            ));
 
-            $user->save();
+            $group = Sentry::findGroupByName('Moradores');
+            $user->addGroup($group);
 
             // redirect
-            Session::flash('message', 'Usuário criado com sucesso! Realize o seu login no formulário abaixo.');
+            Session::flash('message',  trans('messages.user_created_login'));
             return Redirect::to('login');
         }
     }
@@ -72,19 +79,28 @@ class LoginController extends Controller {
                 ->withInput(Input::except('password'));
         } else {
 
-            $remember = (Input::get('remember') == 1 ? true : false);
-            // process login
-            if (Auth::attempt(array('email' => Input::get('email'), 'password' => Input::get('password')), $remember))
+            try
             {
-                //go to destination
-                return Redirect::intended(Session::get('target_path'));
-                Session::forget('target_path');
+                // Set login credentials
+                $credentials = array(
+                    'email'    => Input::get('email'),
+                    'password' => Input::get('password')
+                );
+                $remember = (Input::get('remember') == 1 ? true : false);
+
+                // Try to authenticate the user
+                $user = Sentry::authenticate($credentials, $remember);
             }
-            else {
+            catch (Exception $e)
+            {
                 // block
-                Session::flash('message', 'E-mail ou senha inválidos.');
-                return Redirect::to('login');
+                Session::flash('message', trans('messages.invalid_email_or_password'));
+                return Redirect::to('login')->withInput(Input::except('password'));;
             }
+
+            //go to destination
+            return Redirect::intended(Session::get('target_path'));
+            Session::forget('target_path');
 
 
         }
@@ -106,14 +122,31 @@ class LoginController extends Controller {
 	 */
 	public function postRemind()
 	{
-		switch ($response = Password::remind(Input::only('email')))
-		{
-			case Password::INVALID_USER:
-				return Redirect::back()->with('errors', Lang::get($response));
+        // validate
+        $rules = array(
+            'email' => 'exists:users,email'
+        );
 
-			case Password::REMINDER_SENT:
-				return Redirect::back()->with('status', Lang::get($response));
-		}
+        $validator = Validator::make(Input::all(), $rules);
+
+        // process the login
+        if ($validator->fails()) {
+            return Redirect::to('forgotpassword')
+                ->withErrors($validator)
+                ->withInput();
+        } else {
+            // send email
+            $user = Sentry::findUserByLogin(Input::get('email'));
+            $data['resetCode'] = $user->getResetPasswordCode();
+            Mail::send('emails.auth.reminder', $data, function($m) use ($user)
+            {
+                $m->to($user->email, $user->first_name)->subject(trans('messages.email_subject_password_reminder'));
+            });
+
+            // redirect
+            Session::flash('message', trans('messages.email_sent', array('email' => $user->email)));
+            return Redirect::to('forgotpassword');
+        }
 	}
 
 	/**
@@ -136,28 +169,52 @@ class LoginController extends Controller {
 	 */
 	public function postReset()
 	{
-		$credentials = Input::only(
-			'email', 'password', 'password_confirmation', 'token'
-		);
+        // validate
+        $rules = array(
+            'email' => 'exists:users,email',
+            'password' => 'required|min:4',
+            'password_match' => 'required|min:4|same:password'
+        );
 
-		$response = Password::reset($credentials, function($user, $password)
-		{
-			$user->password = Hash::make($password);
+        $validator = Validator::make(Input::all(), $rules);
 
-			$user->save();
-		});
+        // process the login
+        if ($validator->fails()) {
+            Redirect::back()
+                ->withErrors($validator)
+                ->withInput(Input::except('password'), Input::except('password_match'));
+        } else {
+            try
+            {
+                // Find the user using the user id
+                $user = Sentry::findUserByLogin(Input::get('email'));
 
-		switch ($response)
-		{
-			case Password::INVALID_PASSWORD:
-			case Password::INVALID_TOKEN:
-			case Password::INVALID_USER:
-				return Redirect::back()->with('errors', Lang::get($response));
-
-			case Password::PASSWORD_RESET:
-                Session::flash('message', 'Senha alterada! Realize o seu login no formulário abaixo.');
-				return Redirect::to('login');
-		}
-	}
-
+                // Check if the reset password code is valid
+                if ($user->checkResetPasswordCode(Input::get('token')))
+                {
+                    // Attempt to reset the user password
+                    if ($user->attemptResetPassword(Input::get('token'), Input::get('password')))
+                    {
+                        // Password reset passed
+                        Session::flash('message', trans('messages.password_reset'));
+                        return Redirect::to('login');
+                    }
+                    else
+                    {
+                        // Password reset failed
+                        return Redirect::back()->with('errors', trans('messages.password_reset_fail'));
+                    }
+                }
+                else
+                {
+                    // The provided password reset code is Invalid
+                    return Redirect::back()->with('errors', trans('messages.resetcode_invalid'));
+                }
+            }
+            catch (Cartalyst\Sentry\Users\UserNotFoundException $e)
+            {
+                return Redirect::back()->with('errors', trans('messages.user_not_found'));
+            }
+        }
+    }
 }

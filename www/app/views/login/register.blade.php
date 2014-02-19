@@ -39,7 +39,7 @@ id="login" class="animated fadeInDown"
                                 <section class="col col-6">
                                     <label class="input">
                                         <i class="icon-prepend fa fa-user"></i>
-                                        {{ Form::text('name', Input::old('name'), array('placeholder' => 'Nome Completo')) }}
+                                        {{ Form::text('first_name', Input::old('first_name'), array('placeholder' => 'Apelido')) }}
                                     </label>
                                 </section>
                                 <section class="col col-6">
@@ -94,7 +94,7 @@ id="login" class="animated fadeInDown"
         var $checkoutForm = $('#main-form').validate({
             // Rules for form validation
             rules : {
-                name : {
+                first_name : {
                     required : true,
                     minlength : 3
                 },
@@ -114,7 +114,7 @@ id="login" class="animated fadeInDown"
 
             // Messages for form validation
             messages : {
-                name : {
+                first_name : {
                     required : 'Por favor, preencha o Nome',
                     minlength : 'Por favor, insira pelo menos 3 caracteres'
                 },

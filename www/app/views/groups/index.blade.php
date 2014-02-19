@@ -6,40 +6,27 @@
 @stop
 
 @section('content')
-@include('layouts.index.top', array('controller_name' => 'Moradores', 'single_controller_name' => 'morador', 'create_route' => 'moradores'))
+@include('layouts.index.top', array('icon' => 'fa-group', 'controller_name' => 'Grupos', 'single_controller_name' => 'groups', 'create_route' => 'groups'))
 
     <table id="dt_basic" class="table table-striped table-hover">
         <thead>
         <tr>
             <th>Nome</th>
-            <th>E-mail</th>
-            <th>Cpf</th>
-            <th>Rg</th>
-            <th>Telefone de contato</th>
-            <th>Data de nascimento</th>
-            <th>Sexo</th>
             <th class="no_sort">Ações</th>
         </tr>
         </thead>
         <tbody>
-        @foreach($moradores as $key => $value)
+        @foreach($groups as $key => $value)
             <tr>
-                <td><a href="{{ URL::to('moradores/' . $value->id) }}">{{ $value->nome }}</a></td>
-                <td>{{ $value->email }}</td>
-                <td>{{ $value->cpf }}</td>
-                <td>{{ $value->rg }}</td>
-                <td>{{ $value->tel_contato }}</td>
-                <td>{{ $value->aniversario }}</td>
-                <td>{{ $value->sexo }}</td>
+                <td><a href="{{ URL::to('groups/' . $value->id) }}">{{ $value->name }}</a></td>
                 <td>
-                    <a class="btn bg-color-greenLight txt-color-white btn-xs" href="{{ URL::to('moradores/' . $value->id) }}" title="detalhes"><i class="fa fa-search-plus"></i></a>
-                    <a class="btn bg-color-blue txt-color-white btn-xs" href="{{ URL::to('moradores/' . $value->id . '/edit') }}" title="editar"><i class="fa fa-pencil-square-o"></i></a>
+                    <a class="btn bg-color-greenLight txt-color-white btn-xs" href="{{ URL::to('groups/' . $value->id) }}" title="detalhes"><i class="fa fa-search-plus"></i></a>
+                    <a class="btn bg-color-blue txt-color-white btn-xs" href="{{ URL::to('groups/' . $value->id . '/edit') }}" title="editar"><i class="fa fa-pencil-square-o"></i></a>
                 </td>
             </tr>
         @endforeach
         </tbody>
     </table>
-
 
 @include('layouts.index.bottom')
 @stop

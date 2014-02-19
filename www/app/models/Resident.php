@@ -1,16 +1,15 @@
 <?php
 
-class Morador extends Eloquent
+class Resident extends Eloquent
 {
-    protected $table = 'moradores';
 
     /**
-     * Change the aniversario attr to display correctly
+     * Change the birthdate attr to display correctly
      *
      * @param $value
      * @return mixed
      */
-    public function getAniversarioAttribute($value)
+    public function getBirthdateAttribute($value)
     {
         return $this->dateToHuman($value);
     }
@@ -31,14 +30,14 @@ class Morador extends Eloquent
     }
 
     /**
-     * Change the aniversario attr to be stored correctly on database
+     * Change the birthdate attr to be stored correctly on database
      *
      * @param $value
      * @return mixed
      */
-    public function setAniversarioAttribute($value)
+    public function setBirthdateAttribute($value)
     {
-        return $this->attributes['aniversario'] = $this->dateToDb($value);
+        return $this->attributes['birthdate'] = $this->dateToDb($value);
     }
 
     /**

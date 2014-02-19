@@ -6,22 +6,20 @@
 @stop
 
 @section('content')
-@include('layouts.create.top', array('errors' => $errors, 'controler_name' => 'Moradores', 'submit_route' => 'moradores'))
-
-{{-- Messages --}}
+@include('layouts.edit.top', array('errors' => $errors, 'icon' => 'fa-male', 'controler_name' => 'Moradores', 'model' => $resident, 'submit_route' => 'residents'))
 
     <fieldset>
         <div class="row">
             <section class="col col-6">
                 <label class="input">
                     <i class="icon-prepend fa fa-user"></i>
-                    {{ Form::text('nome', Input::old('nome'), array('placeholder' => 'Nome Completo')) }}
+                    {{ Form::text('name', null, array('placeholder' => 'Nome Completo')) }}
                 </label>
             </section>
             <section class="col col-6">
                 <label class="input">
                     <i class="icon-prepend fa fa-envelope"></i>
-                    {{ Form::text('email', Input::old('email'), array('placeholder' => 'E-mail')) }}
+                    {{ Form::text('email', null, array('placeholder' => 'E-mail')) }}
                 </label>
             </section>
         </div>
@@ -29,10 +27,10 @@
             <section class="col col-6">
                 <label class="input">
                     <i class="icon-append fa fa-question-circle"></i>
-                    {{ Form::text('cpf', Input::old('cpf'), array(
-                        'placeholder' => 'CPF',
-                        'class' => 'form-control',
-                        'data-mask' => "999.999.999-99"
+                    {{ Form::text('cpf', null, array(
+                    'placeholder' => 'CPF',
+                    'class' => 'form-control',
+                    'data-mask' => "999.999.999-99"
                     )) }}
                     <b class="tooltip tooltip-bottom-right">
                         <i class="fa fa-warning txt-color-teal"></i>
@@ -42,7 +40,7 @@
             <section class="col col-6">
                 <label class="input">
                     <i class="icon-append fa fa-question-circle"></i>
-                    {{ Form::text('rg', Input::old('rg'), array('placeholder' => 'RG')) }}
+                    {{ Form::text('rg', null, array('placeholder' => 'RG')) }}
                     <b class="tooltip tooltip-bottom-right">
                         <i class="fa fa-warning txt-color-teal"></i>
                         Somente números</b>
@@ -53,12 +51,12 @@
             <section class="col col-4">
                 <label class="input">
                     <i class="icon-append fa fa-calendar"></i>
-                    {{ Form::text('aniversario', Input::old('aniversario'), array(
-                        'placeholder' => 'Data de Nascimento',
-                        'class' => 'form-control',
-                        'data-dateformat' => 'dd/mm/yy',
-                        'data-mask' => '99/99/9999',
-                        'data-mask-placeholder' => '-'
+                    {{ Form::text('birthdate', null, array(
+                    'placeholder' => 'Data de Nascimento',
+                    'class' => 'form-control',
+                    'data-dateformat' => 'dd/mm/yy',
+                    'data-mask' => '99/99/9999',
+                    'data-mask-placeholder' => '-'
                     )) }}
                     <b class="tooltip tooltip-bottom-right">
                         <i class="fa fa-warning txt-color-teal"></i>
@@ -67,10 +65,10 @@
             </section>
             <section class="col col-4">
                 <label class="select">
-                    {{ Form::select('sexo', array(
-                        '' => 'Selecione o genero',
-                        'M' => 'Masculino',
-                        'F' => 'Feminino',
+                    {{ Form::select('gender', array(
+                    '' => 'Selecione o genero',
+                    'M' => 'Masculino',
+                    'F' => 'Feminino',
                     )) }}
                     <i></i>
                 </label>
@@ -78,10 +76,10 @@
             <section class="col col-4">
                 <label class="input">
                     <i class="icon-append fa fa-phone"></i>
-                    {{ Form::text('tel_contato', Input::old('tel_contato'), array(
-                        'placeholder' => 'Tel. Contato',
-                        'class' => 'form-control',
-                        'data-mask' => '(99) 9999-9999?9'
+                    {{ Form::text('contact_phone', null, array(
+                    'placeholder' => 'Tel. Contato',
+                    'class' => 'form-control',
+                    'data-mask' => '(99) 9999-9999?9'
                     )) }}
                     <b class="tooltip tooltip-bottom-right">
                         <i class="fa fa-warning txt-color-teal"></i>
@@ -91,7 +89,7 @@
         </div>
     </fieldset>
 
-@include('layouts.create.bottom', array('cancel_route'=>'moradores'))
+@include('layouts.edit.bottom', array('cancel_route'=>'residents'))
 @stop
 
 @section('javascripts')
@@ -115,7 +113,7 @@
             var $checkoutForm = $('#main-form').validate({
                 // Rules for form validation
                 rules : {
-                    nome : {
+                    name : {
                         required : true
                     },
                     email : {
@@ -129,7 +127,7 @@
 
                 // Messages for form validation
                 messages : {
-                    nome : {
+                    name : {
                         required : 'Por favor, preencha o Nome'
                     },
                     email : {

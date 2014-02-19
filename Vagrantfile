@@ -9,7 +9,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.network "private_network", ip: "192.168.50.4"
 
-  config.vm.synced_folder "www/app/storage", "/vagrant/www/app/storage", owner: "www-data", group: "www-data", :mount_options => ["dmode=777","fmode=666"]
+  config.vm.synced_folder "www/app/storage", "/vagrant/www/app/storage", owner: "www-data", group: "www-data", :mount_options => ["dmode=777","fmode=777"]
 
   config.vm.provision :shell, :path => "bootstrap.sh"
 

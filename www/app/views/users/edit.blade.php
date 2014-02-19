@@ -6,42 +6,60 @@
 @stop
 
 @section('content')
-@include('layouts.edit.top', array('errors' => $errors, 'controler_name' => 'Moradores', 'model' => $morador, 'submit_route' => 'moradores'))
+@include('layouts.edit.top', array('errors' => $errors, 'icon' => 'fa-user', 'controler_name' => 'Usuários', 'model' => $user, 'submit_route' => 'users'))
 
-<div id="main" role="main">
-    <div id="content">
-        <fieldset>
-            <div class="row">
-                <section class="col col-6">
-                    <label class="input">
-                        <i class="icon-prepend fa fa-user"></i>
-                        {{ Form::text('name', null, array('placeholder' => 'Nome Completo')) }}
-                    </label>
-                </section>
-                <section class="col col-6">
-                    <label class="input">
-                        <i class="icon-prepend fa fa-envelope"></i>
-                        {{ Form::text('email', null, array('placeholder' => 'E-mail')) }}
-                    </label>
-                </section>
-            </div>
-            <div class="row">
-                <section class="col col-6">
-                    <label class="input">
-                        <i class="icon-prepend fa fa-lock"></i>
-                        {{ Form::password('password', array('id' => 'password', 'placeholder' => 'Digite a senha')) }}
-                    </label>
-                </section>
-                <section class="col col-6">
-                    <label class="input">
-                        <i class="icon-prepend fa fa-lock"></i>
-                        {{ Form::password('password_match', array('placeholder' => 'Re-digite a senha')) }}
-                    </label>
-                </section>
-            </div>
-        </fieldset>
-    </div>
-</div>
+    <fieldset>
+        <div class="row">
+            <section class="col col-6">
+                <label class="input">
+                    <i class="icon-prepend fa fa-user"></i>
+                    {{ Form::text('first_name', null, array('placeholder' => 'Nome Completo')) }}
+                </label>
+            </section>
+            <section class="col col-6">
+                <label class="input">
+                    <i class="icon-prepend fa fa-envelope"></i>
+                    {{ Form::text('email', null, array('placeholder' => 'E-mail')) }}
+                </label>
+            </section>
+        </div>
+        <div class="row">
+            <section class="col col-6">
+                <label class="input">
+                    <i class="icon-prepend fa fa-lock"></i>
+                    {{ Form::password('password', array('id' => 'password', 'placeholder' => 'Digite a senha')) }}
+                </label>
+            </section>
+            <section class="col col-6">
+                <label class="input">
+                    <i class="icon-prepend fa fa-lock"></i>
+                    {{ Form::password('password_match', array('placeholder' => 'Re-digite a senha')) }}
+                </label>
+            </section>
+        </div>
+        <div class="row">
+            <section class="col col-6">
+                <label class="select select-multiple">
+                    {{ Form::select('group[]', $groups, null, array('multiple', 'class' => 'custom-scroll')) }}
+                </label>
+            </section>
+            <section class="col col-6">
+                <label class="textarea textarea-resizable">
+                    <i class="icon-append fa fa-question-circle"></i>
+                    {{ Form::textarea('permissions', null, array('placeholder' => 'Permissões')) }}
+                    <b class="tooltip tooltip-top-right">
+                        <i class="fa fa-warning txt-color-teal"></i>
+                        Formato:<br>
+                        {<br>
+                        "user.create" : 1,<br>
+                        "user.delete" : 0,<br>
+                        "user.view" : 1,<br>
+                        "user.update" : 0
+                        }</b>
+                </label>
+            </section>
+        </div>
+    </fieldset>
 
 @include('layouts.edit.bottom', array('cancel_route'=>'users'))
 @stop
@@ -55,63 +73,63 @@
     <script src="/js/forms/select2/select2.min.js"></script>
     <script src="/js/forms/jquery-form/jquery-form.min.js"></script>
 
-{{-- Validation --}}
-<script type="text/javascript">
+    {{-- Validation --}}
+    <script type="text/javascript">
 
-    // DO NOT REMOVE : GLOBAL FUNCTIONS!
+        // DO NOT REMOVE : GLOBAL FUNCTIONS!
 
-    $(document).ready(function() {
+        $(document).ready(function() {
 
-        pageSetUp();
+            pageSetUp();
 
-        var $checkoutForm = $('#main-form').validate({
-            // Rules for form validation
-            rules : {
-                name : {
-                    required : true,
-                    minlength : 3
+            var $checkoutForm = $('#main-form').validate({
+                // Rules for form validation
+                rules : {
+                    first_name : {
+                        required : true,
+                        minlength : 3
+                    },
+                    email : {
+                        email : true
+                    },
+                    password : {
+                        required : true,
+                        minlength : 6
+                    },
+                    password_match : {
+                        required : true,
+                        minlength : 6,
+                        equalTo : '#password'
+                    }
                 },
-                email : {
-                    email : true
+
+                // Messages for form validation
+                messages : {
+                    first_name : {
+                        required : 'Por favor, preencha o Nome',
+                        minlength : 'Por favor, insira pelo menos 3 caracteres'
+                    },
+                    email : {
+                        email : 'Por favor, coloque um E-mail válido'
+                    },
+                    password : {
+                        required : 'Por favor, digite a senha',
+                        minlength : 'Por favor, insira pelo menos 6 caracteres'
+                    },
+                    password_match : {
+                        required : 'Por favor, redigite a senha',
+                        equalTo : 'As senhas são diferentes',
+                        minlength : 'Por favor, insira pelo menos 6 caracteres',
+                        equalTo : 'As senhas não são iguais'
+                    }
                 },
-                password : {
-                    required : true,
-                    minlength : 6
-                },
-                password_match : {
-                    required : true,
-                    minlength : 6,
-                    equalTo : '#password'
+
+                // Do not change code below
+                errorPlacement : function(error, element) {
+                    error.insertAfter(element.parent());
                 }
-            },
-
-            // Messages for form validation
-            messages : {
-                name : {
-                    required : 'Por favor, preencha o Nome',
-                    minlength : 'Por favor, insira pelo menos 3 caracteres'
-                },
-                email : {
-                    email : 'Por favor, coloque um E-mail válido'
-                },
-                password : {
-                    required : 'Por favor, digite a senha',
-                    minlength : 'Por favor, insira pelo menos 6 caracteres'
-                },
-                password_match : {
-                    required : 'Por favor, redigite a senha',
-                    equalTo : 'As senhas são diferentes',
-                    minlength : 'Por favor, insira pelo menos 6 caracteres',
-                    equalTo : 'As senhas não são iguais'
-                }
-            },
-
-            // Do not change code below
-            errorPlacement : function(error, element) {
-                error.insertAfter(element.parent());
-            }
-        });
-    })
-</script>
+            });
+        })
+    </script>
 
 @stop

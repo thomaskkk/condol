@@ -23,15 +23,7 @@ id="login" class="animated fadeInDown"
                 ×
             </button>
             <i class="fa-fw fa fa-times"></i>
-            <strong>Erro!</strong> {{ $errors }}
-        </div>
-        @elseif (count($status) >= 1)
-        <div class="alert alert-success fade in">
-            <button class="close" data-dismiss="alert">
-                ×
-            </button>
-            <i class="fa-fw fa fa-check"></i>
-            <strong>Sucesso</strong> {{ $status }}
+            <strong>Erro!</strong> {{ HTML::ul($errors->all()) }}
         </div>
         @endif
 

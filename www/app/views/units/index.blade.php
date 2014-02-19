@@ -6,33 +6,30 @@
 @stop
 
 @section('content')
-@include('layouts.index.top', array('icon' => 'fa-user', 'controller_name' => 'Usuários', 'single_controller_name' => 'usuário', 'create_route' => 'users'))
+@include('layouts.index.top', array('icon' => 'fa-building', 'controller_name' => 'Moradores', 'single_controller_name' => 'morador', 'create_route' => 'units'))
 
     <table id="dt_basic" class="table table-striped table-hover">
         <thead>
         <tr>
-            <th>Apelido</th>
-            <th>E-mail</th>
-            <th>Permissões</th>
-            <th>Último login</th>
+            <th>Nome</th>
+            <th>Bloco</th>
             <th class="no_sort">Ações</th>
         </tr>
         </thead>
         <tbody>
-        @foreach($users as $key => $value)
+        @foreach($units as $key => $value)
             <tr>
-                <td><a href="{{ URL::to('users/' . $value->id) }}">{{ $value->first_name }}</a></td>
-                <td>{{ $value->email }}</td>
-                <td>{{ $value->permissions }}</td>
-                <td>{{ $value->last_login }}</td>
+                <td><a href="{{ URL::to('units/' . $value->id) }}">{{ $value->name }}</a></td>
+                <td>{{ $value->block }}</td>
                 <td>
-                    <a class="btn bg-color-greenLight txt-color-white btn-xs" href="{{ URL::to('users/' . $value->id) }}" title="detalhes"><i class="fa fa-search-plus"></i></a>
-                    <a class="btn bg-color-blue txt-color-white btn-xs" href="{{ URL::to('users/' . $value->id . '/edit') }}" title="editar"><i class="fa fa-pencil-square-o"></i></a>
+                    <a class="btn bg-color-greenLight txt-color-white btn-xs" href="{{ URL::to('units/' . $value->id) }}" title="detalhes"><i class="fa fa-search-plus"></i></a>
+                    <a class="btn bg-color-blue txt-color-white btn-xs" href="{{ URL::to('units/' . $value->id . '/edit') }}" title="editar"><i class="fa fa-pencil-square-o"></i></a>
                 </td>
             </tr>
         @endforeach
         </tbody>
     </table>
+
 
 @include('layouts.index.bottom')
 @stop

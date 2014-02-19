@@ -6,42 +6,60 @@
 @stop
 
 @section('content')
-@include('layouts.create.top', array('errors' => $errors, 'controler_name' => 'Usuários', 'submit_route' => 'users'))
+@include('layouts.create.top', array('errors' => $errors, 'icon' => 'fa-user', 'controler_name' => 'Usuários', 'submit_route' => 'users'))
 
-<div id="main" role="main">
-    <div id="content">
-        <fieldset>
-            <div class="row">
-                <section class="col col-6">
-                    <label class="input">
-                        <i class="icon-prepend fa fa-user"></i>
-                        {{ Form::text('name', Input::old('name'), array('placeholder' => 'Nome Completo')) }}
-                    </label>
-                </section>
-                <section class="col col-6">
-                    <label class="input">
-                        <i class="icon-prepend fa fa-envelope"></i>
-                        {{ Form::text('email', Input::old('email'), array('placeholder' => 'E-mail')) }}
-                    </label>
-                </section>
-            </div>
-            <div class="row">
-                <section class="col col-6">
-                    <label class="input">
-                        <i class="icon-prepend fa fa-lock"></i>
-                        {{ Form::password('password', array('id' => 'password', 'placeholder' => 'Digite a senha')) }}
-                    </label>
-                </section>
-                <section class="col col-6">
-                    <label class="input">
-                        <i class="icon-prepend fa fa-lock"></i>
-                        {{ Form::password('password_match', array('placeholder' => 'Re-digite a senha')) }}
-                    </label>
-                </section>
-            </div>
-        </fieldset>
-    </div>
-</div>
+    <fieldset>
+        <div class="row">
+            <section class="col col-6">
+                <label class="input">
+                    <i class="icon-prepend fa fa-user"></i>
+                    {{ Form::text('first_name', Input::old('first_name'), array('placeholder' => 'Apelido')) }}
+                </label>
+            </section>
+            <section class="col col-6">
+                <label class="input">
+                    <i class="icon-prepend fa fa-envelope"></i>
+                    {{ Form::text('email', Input::old('email'), array('placeholder' => 'E-mail')) }}
+                </label>
+            </section>
+        </div>
+        <div class="row">
+            <section class="col col-6">
+                <label class="input">
+                    <i class="icon-prepend fa fa-lock"></i>
+                    {{ Form::password('password', array('id' => 'password', 'placeholder' => 'Digite a senha')) }}
+                </label>
+            </section>
+            <section class="col col-6">
+                <label class="input">
+                    <i class="icon-prepend fa fa-lock"></i>
+                    {{ Form::password('password_match', array('placeholder' => 'Re-digite a senha')) }}
+                </label>
+            </section>
+        </div>
+        <div class="row">
+            <section class="col col-6">
+                <label class="select select-multiple">
+                    {{ Form::select('group[]', $groups, Input::old('group[]'), array('multiple', 'class' => 'custom-scroll')) }}
+                </label>
+            </section>
+            <section class="col col-6">
+                <label class="textarea textarea-resizable">
+                    <i class="icon-append fa fa-question-circle"></i>
+                    {{ Form::textarea('permissions', Input::old('permissions'), array('placeholder' => 'Permissões')) }}
+                    <b class="tooltip tooltip-top-right">
+                        <i class="fa fa-warning txt-color-teal"></i>
+                        Formato:<br>
+                        {<br>
+                        "user.create" : 1,<br>
+                        "user.delete" : 0,<br>
+                        "user.view" : 1,<br>
+                        "user.update" : 0
+                        }</b>
+                </label>
+            </section>
+        </div>
+    </fieldset>
 
 @include('layouts.create.bottom', array('cancel_route'=>'users'))
 @stop
@@ -67,7 +85,7 @@
             var $checkoutForm = $('#main-form').validate({
                 // Rules for form validation
                 rules : {
-                    name : {
+                    first_name : {
                         required : true,
                         minlength : 3
                     },
@@ -87,7 +105,7 @@
 
                 // Messages for form validation
                 messages : {
-                    name : {
+                    first_name : {
                         required : 'Por favor, preencha o Nome',
                         minlength : 'Por favor, insira pelo menos 3 caracteres'
                     },

@@ -26,7 +26,7 @@
 	$.navAsAjax = false; // Your left nav in your app will no longer fire ajax calls
 	
 	// Please make sure you have included "jarvis.widget.js" for this below feature to work
-	$.enableJarvisWidgets = false;
+	$.enableJarvisWidgets = true;
 	// $.enableJarvisWidgets needs to be true it to work (could potentially 
 	// crash your webApp if you have too many widgets running on mobile view)	
 	$.enableMobileWidgets = false;
@@ -967,20 +967,20 @@ function setup_widgets_desktop() {
 			onToggle : function() {
 			},
 			// delete btn
-			deleteButton : true,
+			deleteButton : false,
 			deleteClass : 'fa fa-times',
 			deleteSpeed : 200,
 			onDelete : function() {
 			},
 			// edit btn
-			editButton : true,
+			editButton : false,
 			editPlaceholder : '.jarviswidget-editbox',
 			editClass : 'fa fa-cog | fa fa-save',
 			editSpeed : 200,
 			onEdit : function() {
 			},
 			// color button
-			colorButton : true,
+			colorButton : false,
 			// full screen
 			fullscreenButton : true,
 			fullscreenClass : 'fa fa-resize-full | fa fa-resize-small',

@@ -50,6 +50,26 @@ Route::filter('auth.basic', function()
 	return Auth::basic();
 });
 
+Route::filter('auth.sentry', function()
+{
+    if ( ! Sentry::check()) {
+
+        //Save target page
+        Session::put('target_path', Request::path());
+        //go to login page
+        return Redirect::guest('login');
+    }
+    else {
+        //Check user permissions
+        if (!Sentry::getUser()->hasAccess(Route::currentRouteName()))
+        {
+            //denied
+            return Redirect::guest('forbidden');
+        }
+    }
+});
+
+
 /*
 |--------------------------------------------------------------------------
 | Guest Filter

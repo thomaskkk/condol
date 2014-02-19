@@ -54,7 +54,7 @@ id="login" class="animated fadeInDown"
                             <section class="col col-6">
                                 <label class="input">
                                     <i class="icon-prepend fa fa-lock"></i>
-                                    {{ Form::password('password_confirmation', array('placeholder' => 'Re-digite a senha')) }}
+                                    {{ Form::password('password_match', array('placeholder' => 'Re-digite a senha')) }}
                                 </label>
                             </section>
                         </div>

@@ -73,9 +73,10 @@ fi
 
 echo -e "${yellow}Creating tables...${nocolor}"
 php artisan migrate
+php artisan migrate --package=cartalyst/sentry
 
-#echo -e "${yellow}Seeding with demodata...${nocolor}"
-#php artisan db:seed
+echo -e "${yellow}Seeding with demodata...${nocolor}"
+php artisan db:seed
 
 
 echo -e "${yellow}Finished${nocolor}"
