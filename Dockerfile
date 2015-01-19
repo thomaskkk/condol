@@ -18,10 +18,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get autoclean
 # Make mysql listen on the outside
 RUN sed -i "s/^bind-address/#bind-address/" /etc/mysql/my.cnf
 
-#RUN easy_install supervisor
-#ADD ./start.sh /start.sh
-#ADD ./foreground.sh /etc/apache2/foreground.sh
-#ADD ./supervisord.conf /etc/supervisord.conf
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Open port 80
 EXPOSE 80
