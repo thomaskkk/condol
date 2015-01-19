@@ -1,6 +1,6 @@
 #
 #
-FROM ubuntu:14.04
+FROM debian:7.8
 MAINTAINER Thomas Kuryura <thomas.adm@gmail.com>
 
 # Install packages
